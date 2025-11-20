@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "project_name": "NeighborWheels Bike Share",
+    "version": "1.3",
+    "project_status": "ACTIVE"
+  },
+  "nodes": {
+    "1": {
+      "title": "Domain Model & Config",
+      "instruction": "Document entities (user, membership, station, dock, bike, trip, pricing rule, incident) and required configs (service areas, operating hours) in `docs/bike_share_domain.md`.",
+      "dependencies": [],
+      "status": "READY"
+    },
+    "2": {
+      "title": "Station Inventory Service",
+      "instruction": "Implement a service that tracks stations, docks, bikes, and statuses. Expose CRUD for stations and a feed for real-time counts/availability.",
+      "dependencies": [
+        "1"
+      ],
+      "status": "LOCKED"
+    },
+    "3": {
+      "title": "Bike Availability & Reservation Rules",
+      "instruction": "Add logic to calculate available bikes per station and optional short-hold reservations pre-unlock. Include timeouts and cancellation rules.",
+      "dependencies": [
+        "2"
+      ],
+      "status": "LOCKED"
+    },
+    "4": {
+      "title": "Trip Lifecycle Service",
+      "instruction": "Create APIs to start, pause, resume, and end rides. Capture telemetry (location, battery) and enforce time limits/grace periods.",
+      "dependencies": [
+        "3"
+      ],
+      "status": "LOCKED"
+    },
+    "5": {
+      "title": "Pricing & Fees Engine",
+      "instruction": "Implement pricing calculation for memberships vs pay-per-ride, deposits, overages, and penalties for late returns or out-of-zone drops.",
+      "dependencies": [
+        "4"
+      ],
+      "status": "LOCKED"
+    },
+    "6": {
+      "title": "Payment & Billing Pipeline",
+      "instruction": "Integrate with a payment provider for deposit holds, ride authorization, final capture, and refunds. Log payment events for audit.",
+      "dependencies": [
+        "5"
+      ],
+      "status": "LOCKED"
+    },
+    "7": {
+      "title": "Notifications & Receipts",
+      "instruction": "Emit notifications for ride start/stop, nearing overage, penalties, and payment receipts. Support email/SMS push via a queue or webhooks.",
+      "dependencies": [
+        "4",
+        "6"
+      ],
+      "status": "LOCKED"
+    },
+    "8": {
+      "title": "Operations & Incident Management",
+      "instruction": "Add endpoints to log incidents (damaged bike, failed dock, safety issue), track SLA, and surface rebalancing cues for ops dashboards.",
+      "dependencies": [
+        "7"
+      ],
+      "status": "LOCKED"
+    }
+  }
+}

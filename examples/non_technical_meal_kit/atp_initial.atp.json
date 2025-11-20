@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "project_name": "FreshBox Meal Kits",
+    "version": "1.3",
+    "project_status": "ACTIVE"
+  },
+  "nodes": {
+    "1": {
+      "title": "Vision & Personas",
+      "instruction": "Describe the primary customer types (busy families, health-focused singles, beginners) and their goals. Capture success metrics (on-time delivery, low churn, high recipe rating) and dietary inclusions/exclusions.",
+      "dependencies": [],
+      "status": "READY"
+    },
+    "2": {
+      "title": "Meal Plan Catalog Rules",
+      "instruction": "Define the catalog of plans (meals per week, servings per meal), dietary tags (vegan, low-carb), seasonal rotations, add-ons (desserts, snacks), and pricing tiers by plan size.",
+      "dependencies": [
+        "1"
+      ],
+      "status": "LOCKED"
+    },
+    "3": {
+      "title": "Subscription & Checkout Flow",
+      "instruction": "Outline how a customer selects a plan, sets delivery frequency, chooses delivery windows, enters addresses, and pays. Include trial rules, discounts, taxes/shipping handling, and confirmation messaging.",
+      "dependencies": [
+        "2"
+      ],
+      "status": "LOCKED"
+    },
+    "4": {
+      "title": "Delivery & Packaging Policies",
+      "instruction": "Specify service areas, cut-off times for weekly order changes, handling for skipped weeks, packaging preferences (recyclable, cold chain), and how failed deliveries or reschedules are handled.",
+      "dependencies": [
+        "3"
+      ],
+      "status": "LOCKED"
+    },
+    "5": {
+      "title": "Notifications & Support",
+      "instruction": "Define notifications (order confirmation, shipment, delivery ETA, delivery issues), preferred channels (email/SMS/app), and how customers contact support for refunds, substitutions, or dietary issues.",
+      "dependencies": [
+        "4"
+      ],
+      "status": "LOCKED"
+    }
+  }
+}

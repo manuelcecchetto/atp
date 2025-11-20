@@ -1,0 +1,1 @@
+We need to add OAuth login (Google and GitHub) to our web app, issuing our own session cookie after the handshake. Handle errors cleanly and avoid storing provider secrets in the frontend.

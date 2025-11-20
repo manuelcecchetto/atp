@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "project_name": "OAuth Login Upgrade",
+    "version": "1.3",
+    "project_status": "ACTIVE"
+  },
+  "nodes": {
+    "1": {
+      "title": "Auth Provider Configuration",
+      "instruction": "Select the OAuth provider(s), define required scopes, register redirect URIs, and outline how secrets/client IDs are loaded via environment config for each environment (dev/stage/prod).",
+      "dependencies": [],
+      "status": "READY"
+    },
+    "2": {
+      "title": "OAuth Callback Endpoint",
+      "instruction": "Implement the callback route to validate state/nonce, handle provider error codes, and receive the authorization code securely. Include logging for failures and metrics for success/error counts.",
+      "dependencies": [
+        "1"
+      ],
+      "status": "LOCKED"
+    },
+    "3": {
+      "title": "Token Exchange & Session Issuance",
+      "instruction": "Exchange the authorization code for tokens, validate ID token claims, and create the user session (cookie or token-based). Handle token refresh/expiry and persist minimal identity info needed downstream.",
+      "dependencies": [
+        "2"
+      ],
+      "status": "LOCKED"
+    },
+    "4": {
+      "title": "User Linking & Account Rules",
+      "instruction": "Define how new users are created vs. existing accounts are linked (by email or provider ID), conflict resolution rules, and what happens when required profile fields are missing.",
+      "dependencies": [
+        "3"
+      ],
+      "status": "LOCKED"
+    },
+    "5": {
+      "title": "Frontend Login Entry Point",
+      "instruction": "Add the login button/entry point, initiate the OAuth redirect with CSRF protection, surface provider errors to the user, and confirm success state post-redirect. Include loading/error UX states.",
+      "dependencies": [
+        "3"
+      ],
+      "status": "LOCKED"
+    }
+  }
+}

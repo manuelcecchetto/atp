@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "project_name": "NeighborWheels Bike Share",
+    "version": "1.3",
+    "project_status": "ACTIVE"
+  },
+  "nodes": {
+    "1": {
+      "title": "User Personas & Access Rules",
+      "instruction": "Define who can ride (residents vs visitors), age/ID verification, service areas, and hours of operation. Note any local regulations (helmet, sidewalk restrictions).",
+      "dependencies": [],
+      "status": "READY"
+    },
+    "2": {
+      "title": "Station & Inventory Model",
+      "instruction": "Describe how stations and bikes are represented (location, capacity, bike types), docking rules, and expectations for rebalancing when stations fill or empty.",
+      "dependencies": [
+        "1"
+      ],
+      "status": "LOCKED"
+    },
+    "3": {
+      "title": "Unlock & Ride Flow",
+      "instruction": "Explain how riders start a trip (app scan/kiosk), grace periods, ride time limits, pausing a ride, and what data must be captured during a trip (location, battery level for e-bikes).",
+      "dependencies": [
+        "2"
+      ],
+      "status": "LOCKED"
+    },
+    "4": {
+      "title": "Pricing, Deposits, and Penalties",
+      "instruction": "Set the pricing model (membership vs pay-per-ride), deposits/holds, overage fees, late return penalties, lost/damaged bike handling, and discounts (students, off-peak).",
+      "dependencies": [
+        "3"
+      ],
+      "status": "LOCKED"
+    },
+    "5": {
+      "title": "Incidents & Support",
+      "instruction": "Define how riders report issues (flat tire, broken dock), what happens to ongoing rides during incidents, SLA expectations for resolution, and notification rules for safety or service outages.",
+      "dependencies": [
+        "4"
+      ],
+      "status": "LOCKED"
+    }
+  }
+}

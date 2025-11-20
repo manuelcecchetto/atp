@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "project_name": "OAuth Login Upgrade",
+    "version": "1.3",
+    "project_status": "ACTIVE"
+  },
+  "nodes": {
+    "1": {
+      "title": "Provider Config & Secrets",
+      "instruction": "Create provider configs (Google, GitHub) with scopes and redirect URIs. Load client IDs/secrets from environment per env and fail fast when missing.",
+      "dependencies": [],
+      "status": "READY"
+    },
+    "2": {
+      "title": "State/Nonce Middleware",
+      "instruction": "Implement middleware/helpers to generate, store, and validate state+nonce. Ensure CSRF protection and short-lived storage (cookie or server session).",
+      "dependencies": [
+        "1"
+      ],
+      "status": "LOCKED"
+    },
+    "3": {
+      "title": "Auth Redirect Endpoint",
+      "instruction": "Create the `/auth/:provider/start` endpoint to issue state/nonce, build provider URLs, and redirect the browser. Log start events for audit.",
+      "dependencies": [
+        "2"
+      ],
+      "status": "LOCKED"
+    },
+    "4": {
+      "title": "Callback Handler",
+      "instruction": "Handle `/auth/:provider/callback`, verify state/nonce, and surface provider error codes cleanly. Record metrics for success/failure.",
+      "dependencies": [
+        "3"
+      ],
+      "status": "LOCKED"
+    },
+    "5": {
+      "title": "Token Exchange & Validation",
+      "instruction": "Exchange authorization codes for tokens, validate ID token claims (issuer, audience, expiry), and normalize provider profiles.",
+      "dependencies": [
+        "4"
+      ],
+      "status": "LOCKED"
+    },
+    "6": {
+      "title": "Session Issuance",
+      "instruction": "Issue first-party session (cookie/JWT) with secure attributes, expiry, and refresh/rotation policy. Store minimal identity and revoke on logout.",
+      "dependencies": [
+        "5"
+      ],
+      "status": "LOCKED"
+    },
+    "7": {
+      "title": "User Linking & Account Rules",
+      "instruction": "Implement user lookup/upsert by provider ID/email, handle conflicts, and enforce required profile fields before enabling access.",
+      "dependencies": [
+        "5"
+      ],
+      "status": "LOCKED"
+    },
+    "8": {
+      "title": "Frontend Login UI",
+      "instruction": "Add login buttons, start redirect flow, and render success/error states post-callback. Include loading, retry, and provider error messaging.",
+      "dependencies": [
+        "3"
+      ],
+      "status": "LOCKED"
+    },
+    "9": {
+      "title": "Audit Logging & Tests",
+      "instruction": "Add structured logs for start/callback/token exchange outcomes and negative paths. Cover happy/edge cases with automated tests, including new provider and policy changes.",
+      "dependencies": [
+        "4",
+        "6",
+        "7",
+        "10",
+        "11"
+      ],
+      "status": "LOCKED"
+    },
+    "10": {
+      "title": "Additional Provider (Microsoft)",
+      "instruction": "Add Microsoft as a provider with its scopes and redirect URIs. Reuse the shared flow for start/callback while keeping configs isolated per provider.",
+      "dependencies": [
+        "1",
+        "3"
+      ],
+      "status": "LOCKED"
+    },
+    "11": {
+      "title": "Domain Allowlist & Step-Up MFA",
+      "instruction": "Enforce email domain allowlist post-token validation and require step-up MFA for privileged roles. Deny/redirect unauthorized domains with clear messaging.",
+      "dependencies": [
+        "5",
+        "7",
+        "10"
+      ],
+      "status": "LOCKED"
+    }
+  }
+}

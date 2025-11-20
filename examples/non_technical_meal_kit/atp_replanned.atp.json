@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "project_name": "FreshBox Meal Kits",
+    "version": "1.3",
+    "project_status": "ACTIVE"
+  },
+  "nodes": {
+    "1": {
+      "title": "Domain Model & Constraints",
+      "instruction": "Document entities (customer, subscription, plan, delivery window, recipe, ingredient, allergens, add-ons) and business constraints (cutoffs, skip rules) in `docs/meal_kit_domain.md`.",
+      "dependencies": [],
+      "status": "READY"
+    },
+    "2": {
+      "title": "Menu & Recipe Service",
+      "instruction": "Implement a service to manage weekly menus, recipes, dietary tags, and seasonal rotations. Expose APIs to fetch available recipes and their allergen metadata.",
+      "dependencies": [
+        "1"
+      ],
+      "status": "LOCKED"
+    },
+    "3": {
+      "title": "Subscription Checkout & Billing",
+      "instruction": "Build plan selection, delivery frequency, address capture, payment, discounts, and taxes/shipping calculations. Persist subscriptions with status and next delivery date.",
+      "dependencies": [
+        "1",
+        "2"
+      ],
+      "status": "LOCKED"
+    },
+    "4": {
+      "title": "Delivery Scheduling & Cutoffs",
+      "instruction": "Implement delivery window selection, cutoff enforcement for changes/skips, and rules for pausing or resuming a subscription.",
+      "dependencies": [
+        "3"
+      ],
+      "status": "LOCKED"
+    },
+    "5": {
+      "title": "Fulfillment & Packaging Rules",
+      "instruction": "Generate weekly pick lists per order, enforce cold-chain packaging rules, and record packaging choices for sustainability metrics.",
+      "dependencies": [
+        "2",
+        "4"
+      ],
+      "status": "LOCKED"
+    },
+    "6": {
+      "title": "Notifications & Order Status",
+      "instruction": "Send confirmation, shipment, ETA, delivery issue, gift card redemption, and allergen substitution notifications over email/SMS. Expose order status APIs for the customer portal.",
+      "dependencies": [
+        "3",
+        "4",
+        "5",
+        "8",
+        "9"
+      ],
+      "status": "LOCKED"
+    },
+    "7": {
+      "title": "Support & Refund Flows",
+      "instruction": "Define flows for substitutions, refunds, and missed deliveries. Capture support tickets and consequences on order state and billing.",
+      "dependencies": [
+        "3",
+        "5"
+      ],
+      "status": "LOCKED"
+    },
+    "8": {
+      "title": "Gift Card Purchase & Redemption",
+      "instruction": "Add flows to buy, email, and redeem gift cards. Track balances, partial redemptions, and fraud/abuse checks. Integrate with checkout to apply balances before charging.",
+      "dependencies": [
+        "3"
+      ],
+      "status": "LOCKED"
+    },
+    "9": {
+      "title": "Allergen Substitution Flow",
+      "instruction": "Allow customers to request substitutions for flagged allergens before cutoff, update pick lists, adjust nutrition metadata, and notify fulfillment/support of changes.",
+      "dependencies": [
+        "2",
+        "5"
+      ],
+      "status": "LOCKED"
+    }
+  }
+}
