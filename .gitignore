@@ -1,0 +1,40 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Distribution / build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Type checking / lint
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+
+# MCP / local runtime
+.mcp/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Environment / secrets
+.env
+.env.*
+*.log
