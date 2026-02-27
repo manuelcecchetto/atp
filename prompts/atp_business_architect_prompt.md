@@ -30,6 +30,7 @@ You MUST output JSON that conforms to this structure:
       "context": string,            // optional
       "dependencies": [string],     // required, array of NodeIDs (can be empty)
       "status": string,             // required, one of ["LOCKED", "READY", "CLAIMED", "COMPLETED", "FAILED"]
+      "reasoning_effort": string,   // required, one of ["minimal", "low", "medium", "high", "xhigh"]
 
       // The following fields are runtime fields and SHOULD NOT be included
       // at planning time:
@@ -106,6 +107,7 @@ For each node, you must define:
 - `instruction`
 - `dependencies`
 - `status`
+- `reasoning_effort`
 - (Optionally) `context`
 
 3.1. Node IDs
@@ -202,6 +204,15 @@ Acceptance criteria:
 Example:
 - Root node: `"status": "READY"`
 - Dependent node: `"status": "LOCKED"`
+
+3.7. Reasoning Effort
+---------------------
+- At planning time, you must set `reasoning_effort` for every node.
+- Allowed values: `"minimal"`, `"low"`, `"medium"`, `"high"`, `"xhigh"`.
+- Assignment rule:
+  - Routine operational nodes (straightforward edits, boilerplate updates, simple tests/docs) should usually be `"minimal"` or `"low"`.
+  - Standard implementation nodes should usually be `"medium"`.
+  - Complex architecture, migration, security, or high-risk integration nodes should be `"high"` or `"xhigh"`.
 
 
 ========================================
@@ -308,6 +319,7 @@ Only include:
 - `context` (optional)
 - `dependencies`
 - `status`
+- `reasoning_effort`
 
 
 ========================================
