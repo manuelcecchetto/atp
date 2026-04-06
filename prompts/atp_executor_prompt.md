@@ -78,13 +78,21 @@ You have the following MCP tools on this server:
 4. **`atp_read_graph(plan_path: str, view_mode: str = "full", node_id?: str) -> str`**
 
    - `view_mode = "full"`: returns the entire ATP graph as JSON (string).
+     - ATP v1.4 full reads may include runtime `meta.graph_version` for adaptive-judge concurrency control.
    - `view_mode = "local"` and `node_id` set: returns a human-friendly neighborhood view:
      - The node’s title and status
      - Its dependencies and children
      - Reports from parents and the titles of children
    - Use this to inspect context, dependencies, or SCOPE structure if needed.
 
-5. **Resource: `atp://status/summary`**
+5. **`atp_apply_future_patch(plan_path: str, expected_graph_version: str, patch: Dict, reason: str, actor_id: str) -> str`**
+
+   - ATP v1.4 future-graph mutation tool.
+   - This is primarily for adaptive-judge or orchestrator flows, not normal worker execution.
+   - Use only when explicitly instructed to operate as the adaptive judge.
+   - Apply is rejected unless claimed-node count is zero, the graph version matches, the patch targets only future mutable nodes, and the candidate graph remains valid.
+
+6. **Resource: `atp://status/summary`**
 
    - Returns a short textual dashboard with:
      - Project name and status.
@@ -158,6 +166,15 @@ Your typical loop is:
        - Any new tests added or updated, and their expected behavior.
        - Any known limitations, TODOs, or follow-up work.
        - How to manually verify that the task is complete (steps, commands, URLs).
+       - When ATP v1.4 adaptive judge flows are in use, prefer explicit sections for:
+         - `Outcome`
+         - `Facts Learned`
+         - `Decisions Made`
+         - `Files Touched`
+         - `Interfaces Changed`
+         - `Verification`
+         - `Risks`
+         - `Recommended Next Step`
      - Build an `artifacts` list of paths for key files you touched or created (optional but recommended).
 
    - Mark the task complete:
