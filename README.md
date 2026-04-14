@@ -3,7 +3,7 @@ Agent Task Protocol (ATP)
 
 **A Schema-First Standard for Autonomous AI Planning & Execution.**
 
-ATP is a protocol that decouples **Planning** (The Architect) from **Execution** (The Agent). Instead of rigid chains or chaotic swarms, ATP uses a strictly typed **Directed Acyclic Graph (DAG)** stored in a single `.atp.json` file. This repo ships the schema and prompt templates; it does not bundle an official agent.
+ATP is a protocol that decouples **Planning** (The Architect) from **Execution** (The Agent). Instead of rigid chains or chaotic swarms, ATP uses a strictly typed **Directed Acyclic Graph (DAG)** stored in a single `.atp.json` file. This repo ships the schema, prompt templates, and a repo-local skill bundle for file-based ATP operations; it does not bundle an official orchestrator or agent.
 
 ATP v1.4 adds an adaptive judge model for bounded future replanning. Workers still execute one claimed node at a time, but a post-node judge may reshape only future work through MCP-owned patch operations when claimed-node count is zero.
 
@@ -82,6 +82,9 @@ This keeps ATP mutable under discovery without dragging raw prior conversation i
 
 ```
 ├── README.md
+├── .skills/
+│   ├── README.md                  # Repo-local skill index for ATP-aware agents
+│   └── atp-local-librarian/       # Local no-MCP ATP librarian skill + CLI
 ├── atp_schema.json                  # Strict JSON schema definition (v1.3 plan format; v1.4 is behavior/tooling additive)
 ├── examples/                        # Ready-to-use ATP graph samples
 │   ├── non_technical_bike_share/    # Neighborhood bike share scenario
@@ -115,6 +118,18 @@ Load that plan into your ATP-compatible agent/orchestrator. When a node is too a
 All agents—even across different LLMs or runtimes—must persist their changes back into the same `.atp.json` file; there is no alternate state store.
 
 For ATP v1.4 adaptive flows, the runner or orchestrator must treat raw conversation as audit/debug state only. Default cross-turn handoff should come from node reports, durable memory, and current graph state.
+
+### 2a. Use The Bundled Local Librarian Skill
+
+If you want a file-based replacement for the ATP MCP librarian, use [`atp-local-librarian`](./.skills/atp-local-librarian/SKILL.md). It bundles a dependency-free Python CLI that can:
+
+- claim READY work from a `.atp.json` graph
+- complete or fail nodes with reports and artifacts
+- decompose a node into a child DAG
+- read full or local graph views
+- apply bounded ATP v1.4 future patches under a file lock
+
+The command patterns live in [`.skills/atp-local-librarian/references/command-patterns.md`](./.skills/atp-local-librarian/references/command-patterns.md).
 
 ### 3\. Visualize
 

@@ -1,0 +1,7 @@
+interface:
+  display_name: "ATP Local Librarian"
+  short_description: "Operate ATP plans without MCP"
+  default_prompt: "Use $atp-local-librarian to operate directly on this .atp.json plan without MCP."
+
+policy:
+  allow_implicit_invocation: true
